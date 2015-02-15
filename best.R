@@ -11,12 +11,14 @@ best <- function(state,outcome) {
         stck <- sum(data$State == state)
         if (stck == 0) {
           # throw error: invalid state
+          stop("invalid state")
         }
      ## Outcome 
         occk <- c("heart attack","heart failure","pneumonia")
         occka <- sum(occk == outcome)
         if (occka == 0) {
           # throw error : invalid outcome
+          stop("invalid outcome")
         }
         
       collu <- data.frame(oc = occk,col = c(11,17,23))    
@@ -26,7 +28,8 @@ best <- function(state,outcome) {
   ## Return hospital name in that state with lowest 30-day death
      
        # create evaludation data frame
-          rankdf <- data.frame(hosp = data$Hospital.Name, st = data$State, met = data[,occol])
+          
+          rankdf <- suppressWarnings(data.frame(hosp = data$Hospital.Name, st = data$State, met = as.numeric(data[,occol])))
           
           rankdf$hosp <- as.character(rankdf$hosp)        
   
