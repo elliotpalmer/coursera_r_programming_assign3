@@ -1,4 +1,4 @@
-rankall <- function(outcome, num = "best") {
+rankall <- function(outcome = "heart attack", num = "best") {
   
   outcome <- tolower(outcome)  
   
@@ -33,7 +33,9 @@ rankall <- function(outcome, num = "best") {
   
    ##potentially i[order(i$x,i$y)==1]
   
-  
+  ranked <- transform(winsort,metRank = ave(met,st, FUN = function(x) rank(x,ties.method = "first")))
+    
+  ### Need to update for the full vector (i.e. need to test each of the states for the below)
   if (num == "best") {
     inum <- 1
   } else if (num == "worst") {
@@ -44,7 +46,7 @@ rankall <- function(outcome, num = "best") {
     inum <- num
   }
   
-  winval <- winsort[inum,1]
+  winval <- ranked[ranked$metRank == inum,c(1,2)]
   
   ##rate
   winval
